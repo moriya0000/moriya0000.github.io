@@ -14,7 +14,50 @@
 </head>
 <body class="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-slate-100 min-h-screen p-4 md:p-8 flex items-center justify-center">
 
-    <div class="w-full max-w-2xl bg-slate-800/90 backdrop-blur-xl border border-slate-700/60 rounded-3xl shadow-2xl p-6 md:p-8">
+    <!-- ログイン画面 -->
+    <div id="loginScreen" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="w-full max-w-md bg-slate-800/90 border border-slate-700/60 rounded-3xl shadow-2xl p-6 md:p-8">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-indigo-600/20 rounded-2xl flex items-center justify-center mx-auto mb-3 border border-indigo-500/30">
+                    <i class="fa-solid fa-lock text-indigo-400 text-2xl"></i>
+                </div>
+                <h2 class="text-xl font-bold text-white">ログイン</h2>
+                <p class="text-xs text-slate-400 mt-1">音声連続再生システムを利用するにはログインしてください</p>
+            </div>
+
+            <form id="loginForm" class="space-y-4" onsubmit="handleLogin(event)">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1.5">ユーザー名</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-user absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                        <input type="text" id="username" placeholder="" required
+                            class="w-full bg-slate-900/60 border border-slate-700 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1.5">パスワード</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-key absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                        <input type="password" id="password" placeholder="" required
+                            class="w-full bg-slate-900/60 border border-slate-700 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors">
+                    </div>
+                </div>
+
+                <div id="loginError" class="hidden text-xs text-rose-400 bg-rose-500/10 border border-rose-500/20 rounded-lg p-2.5 text-center">
+                    ユーザー名またはパスワードが違います
+                </div>
+
+                <button type="submit"
+                    class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2.5 rounded-xl transition-all shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2 mt-2">
+                    <i class="fa-solid fa-right-to-bracket"></i> ログイン
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- メイン操作画面（初期状態は hidden） -->
+    <div id="mainSystem" class="hidden w-full max-w-2xl bg-slate-800/90 backdrop-blur-xl border border-slate-700/60 rounded-3xl shadow-2xl p-6 md:p-8">
         
         <!-- ヘッダー -->
         <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-700/60">
@@ -24,9 +67,14 @@
                 </h1>
                 <p class="text-xs text-slate-400 mt-1">カテゴリごとに音声を選択して連続再生します</p>
             </div>
-            <div id="statusBadge" class="px-3 py-1 rounded-full text-xs font-medium bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 flex items-center gap-1.5">
-                <span class="w-2 h-2 rounded-full bg-indigo-400"></span>
-                準備完了
+            <div class="flex items-center gap-3">
+                <div id="statusBadge" class="px-3 py-1 rounded-full text-xs font-medium bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-indigo-400"></span>
+                    準備完了
+                </div>
+                <button onclick="handleLogout()" class="px-3 py-1.5 rounded-xl bg-slate-700 hover:bg-slate-600 text-xs text-slate-300 hover:text-white transition-colors flex items-center gap-1.5">
+                    <i class="fa-solid fa-right-from-bracket"></i> ログアウト
+                </button>
             </div>
         </div>
 
@@ -132,6 +180,37 @@
     </div>
 
     <script>
+        // 認証用設定 (本番環境ではサーバー側の認証ロジックを推奨します)
+        const AUTH_CONFIG = {
+            username: "moriya",
+            password: "480031"
+        };
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const uInput = document.getElementById('username').value;
+            const pInput = document.getElementById('password').value;
+            const loginError = document.getElementById('loginError');
+
+            if (uInput === AUTH_CONFIG.username && pInput === AUTH_CONFIG.password) {
+                loginError.classList.add('hidden');
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('mainSystem').classList.remove('hidden');
+            } else {
+                loginError.classList.remove('hidden');
+            }
+        }
+
+        function handleLogout() {
+            if (isPlayingQueue) {
+                stopQueue();
+            }
+            document.getElementById('mainSystem').classList.add('hidden');
+            document.getElementById('loginScreen').classList.remove('hidden');
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+        }
+
         // 音声データ構造
         const categories = {
             cause: [
