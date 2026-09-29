@@ -3,19 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>音声連続再生システム</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    >
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-        rel="stylesheet"
-    >
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+          rel="stylesheet">
 
     <style>
         body {
@@ -30,464 +27,454 @@
 
 <body class="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-slate-100 min-h-screen p-4 md:p-8 flex items-center justify-center">
 
-    <!-- =========================================================
-         ログイン画面
-    ========================================================== -->
 
-    <div
-        id="loginScreen"
-        class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4"
-    >
-        <div class="w-full max-w-md bg-slate-800/90 border border-slate-700/60 rounded-3xl shadow-2xl p-6 md:p-8">
+<!-- ============================================================
+     ログイン画面
+============================================================ -->
 
-            <div class="text-center mb-6">
+<div id="loginScreen"
+     class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
 
-                <div class="w-16 h-16 bg-indigo-600/20 rounded-2xl flex items-center justify-center mx-auto mb-3 border border-indigo-500/30">
-                    <i class="fa-solid fa-lock text-indigo-400 text-2xl"></i>
-                </div>
+    <div class="w-full max-w-md bg-slate-800/90 border border-slate-700/60 rounded-3xl shadow-2xl p-6 md:p-8">
 
-                <h2 class="text-xl font-bold text-white">
-                    ログイン
-                </h2>
+        <div class="text-center mb-6">
 
-                <p class="text-xs text-slate-400 mt-1">
-                    音声連続再生システムを利用するにはログインしてください
-                </p>
+            <div class="w-16 h-16 bg-indigo-600/20 rounded-2xl flex items-center justify-center mx-auto mb-3 border border-indigo-500/30">
+
+                <i class="fa-solid fa-lock text-indigo-400 text-2xl"></i>
 
             </div>
 
-            <form
-                id="loginForm"
-                class="space-y-4"
-                onsubmit="handleLogin(event)"
-            >
+            <h2 class="text-xl font-bold text-white">
+                ログイン
+            </h2>
 
-                <div>
-
-                    <label class="block text-xs font-semibold text-slate-300 mb-1.5">
-                        ユーザー名
-                    </label>
-
-                    <div class="relative">
-
-                        <i class="fa-solid fa-user absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
-
-                        <input
-                            type="text"
-                            id="username"
-                            required
-                            class="w-full bg-slate-900/60 border border-slate-700 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors"
-                        >
-
-                    </div>
-
-                </div>
-
-
-                <div>
-
-                    <label class="block text-xs font-semibold text-slate-300 mb-1.5">
-                        パスワード
-                    </label>
-
-                    <div class="relative">
-
-                        <i class="fa-solid fa-key absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
-
-                        <input
-                            type="password"
-                            id="password"
-                            required
-                            class="w-full bg-slate-900/60 border border-slate-700 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors"
-                        >
-
-                    </div>
-
-                </div>
-
-
-                <div
-                    id="loginError"
-                    class="hidden text-xs text-rose-400 bg-rose-500/10 border border-rose-500/20 rounded-lg p-2.5 text-center"
-                >
-                    ユーザー名またはパスワードが違います
-                </div>
-
-
-                <button
-                    type="submit"
-                    class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2.5 rounded-xl transition-all shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2 mt-2"
-                >
-                    <i class="fa-solid fa-right-to-bracket"></i>
-                    ログイン
-                </button>
-
-            </form>
+            <p class="text-xs text-slate-400 mt-1">
+                音声連続再生システムを利用するにはログインしてください
+            </p>
 
         </div>
-    </div>
 
 
-    <!-- =========================================================
-         メインシステム
-    ========================================================== -->
-
-    <div
-        id="mainSystem"
-        class="hidden w-full max-w-2xl bg-slate-800/90 backdrop-blur-xl border border-slate-700/60 rounded-3xl shadow-2xl p-6 md:p-8"
-    >
-
-        <!-- ヘッダー -->
-
-        <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-700/60">
+        <form id="loginForm"
+              class="space-y-4"
+              onsubmit="handleLogin(event)">
 
             <div>
 
-                <h1 class="text-xl font-bold tracking-tight text-white flex items-center gap-2">
-
-                    <i class="fa-solid fa-music text-indigo-400"></i>
-
-                    音声連続再生システム
-
-                </h1>
-
-                <p class="text-xs text-slate-400 mt-1">
-                    カテゴリごとに音声を選択して連続再生します
-                </p>
-
-            </div>
-
-
-            <div class="flex items-center gap-3">
-
-                <div
-                    id="statusBadge"
-                    class="px-3 py-1 rounded-full text-xs font-medium bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 flex items-center gap-1.5"
-                >
-
-                    <span class="w-2 h-2 rounded-full bg-indigo-400"></span>
-
-                    準備完了
-
-                </div>
-
-
-                <button
-                    onclick="handleLogout()"
-                    class="px-3 py-1.5 rounded-xl bg-slate-700 hover:bg-slate-600 text-xs text-slate-300 hover:text-white transition-colors flex items-center gap-1.5"
-                >
-
-                    <i class="fa-solid fa-right-from-bracket"></i>
-
-                    ログアウト
-
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- =====================================================
-             音声選択
-        ====================================================== -->
-
-        <div class="space-y-6 mb-6">
-
-
-            <!-- 原因 -->
-
-            <div class="bg-slate-900/40 p-4 rounded-2xl border border-slate-700/40">
-
-                <h2 class="text-xs font-semibold uppercase tracking-wider text-indigo-400 mb-3 flex items-center gap-2">
-
-                    <i class="fa-solid fa-triangle-exclamation"></i>
-
-                    １．原因（1つ選択）
-
-                </h2>
-
-                <div
-                    id="category-cause"
-                    class="grid grid-cols-3 sm:grid-cols-4 gap-2.5"
-                ></div>
-
-            </div>
-
-
-            <!-- 区間 -->
-
-            <div class="bg-slate-900/40 p-4 rounded-2xl border border-slate-700/40">
-
-                <h2 class="text-xs font-semibold uppercase tracking-wider text-emerald-400 mb-3 flex items-center gap-2">
-
-                    <i class="fa-solid fa-route"></i>
-
-                    ２．区間（2つ選択）
-
-                </h2>
-
-                <div
-                    id="category-section"
-                    class="grid grid-cols-3 sm:grid-cols-5 gap-2.5"
-                ></div>
-
-            </div>
-
-
-            <!-- 状況 -->
-
-            <div class="bg-slate-900/40 p-4 rounded-2xl border border-slate-700/40">
-
-                <h2 class="text-xs font-semibold uppercase tracking-wider text-amber-400 mb-3 flex items-center gap-2">
-
-                    <i class="fa-solid fa-circle-info"></i>
-
-                    ３．状況（1つ選択）
-
-                </h2>
-
-                <div
-                    id="category-status"
-                    class="grid grid-cols-3 gap-2.5"
-                ></div>
-
-            </div>
-
-        </div>
-
-
-        <!-- =====================================================
-             再生順序
-        ====================================================== -->
-
-        <div class="bg-slate-900/70 rounded-2xl p-4 mb-6 border border-slate-700/40">
-
-            <div class="flex items-center justify-between mb-3">
-
-                <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-
-                    <i class="fa-solid fa-list-ol text-indigo-400"></i>
-
-                    再生順序
-
-                </h3>
-
-
-                <button
-                    id="resetSelectionBtn"
-                    class="text-xs text-rose-400 hover:text-rose-300 transition-colors flex items-center gap-1"
-                >
-
-                    <i class="fa-solid fa-rotate-left"></i>
-
-                    選択解除
-
-                </button>
-
-            </div>
-
-
-            <div
-                id="sequenceDisplay"
-                class="flex flex-wrap items-center gap-2 min-h-[50px] p-2 bg-slate-800/60 rounded-xl border border-slate-700/30"
-            ></div>
-
-        </div>
-
-
-        <!-- =====================================================
-             ループ設定
-        ====================================================== -->
-
-        <div class="bg-slate-900/50 p-4 rounded-2xl border border-slate-700/40 mb-6">
-
-            <div class="flex items-center justify-between mb-3">
-
-                <label class="flex items-center gap-2 cursor-pointer select-none">
-
-                    <input
-                        type="checkbox"
-                        id="loopEnableToggle"
-                        class="sr-only peer"
-                    >
-
-                    <div class="w-9 h-5 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-600 relative"></div>
-
-                    <span class="text-xs font-bold text-slate-200 flex items-center gap-1.5">
-
-                        <i class="fa-solid fa-repeat text-indigo-400"></i>
-
-                        定期ループ再生を有効にする
-
-                    </span>
-
+                <label class="block text-xs font-semibold text-slate-300 mb-1.5">
+                    ユーザー名
                 </label>
 
-            </div>
+                <div class="relative">
 
+                    <i class="fa-solid fa-user absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
 
-            <div
-                id="loopSettingsArea"
-                class="flex flex-col sm:flex-row items-center gap-4 opacity-50 pointer-events-none transition-all duration-200"
-            >
-
-                <div class="flex-1 w-full flex items-center gap-3">
-
-                    <span class="text-xs text-slate-400 shrink-0">
-                        再生間隔:
-                    </span>
-
-                    <input
-                        type="range"
-                        id="loopIntervalRange"
-                        min="0"
-                        max="300"
-                        step="5"
-                        value="10"
-                        class="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer"
-                    >
-
-                    <div class="flex items-center gap-1 shrink-0">
-
-                        <input
-                            type="number"
-                            id="loopIntervalInput"
-                            min="0"
-                            max="300"
-                            value="10"
-                            class="w-16 bg-slate-800 border border-slate-700 text-xs rounded-lg px-2 py-1 text-center font-bold text-indigo-300 focus:outline-none focus:border-indigo-500"
-                        >
-
-                        <span class="text-xs text-slate-400">
-                            秒
-                        </span>
-
-                    </div>
+                    <input type="text"
+                           id="username"
+                           required
+                           class="w-full bg-slate-900/60 border border-slate-700 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors">
 
                 </div>
 
             </div>
 
-        </div>
 
+            <div>
 
-        <!-- =====================================================
-             プレイヤー
-        ====================================================== -->
+                <label class="block text-xs font-semibold text-slate-300 mb-1.5">
+                    パスワード
+                </label>
 
-        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 bg-slate-900/60 p-4 rounded-2xl border border-slate-700/40 mb-4">
+                <div class="relative">
 
-            <div class="flex items-center gap-3 w-full sm:w-auto justify-center">
+                    <i class="fa-solid fa-key absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
 
-                <button
-                    id="playQueueBtn"
-                    class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white flex items-center justify-center shadow-lg shadow-emerald-500/30 transition-all disabled:opacity-40 disabled:cursor-not-allowed hover:scale-105 active:scale-95"
-                    disabled
-                    title="再生開始"
-                >
-
-                    <i
-                        id="playQueueIcon"
-                        class="fa-solid fa-play text-xl ml-0.5"
-                    ></i>
-
-                </button>
-
-
-                <button
-                    id="stopQueueBtn"
-                    class="w-12 h-12 rounded-2xl bg-slate-700 hover:bg-slate-600 text-slate-200 flex items-center justify-center transition-all disabled:opacity-40 disabled:cursor-not-allowed"
-                    disabled
-                    title="停止"
-                >
-
-                    <i class="fa-solid fa-stop text-base"></i>
-
-                </button>
-
-            </div>
-
-
-            <div class="flex-1 w-full px-2">
-
-                <div class="flex justify-between text-xs text-slate-400 mb-1">
-
-                    <span
-                        id="currentPlayingLabel"
-                        class="font-medium text-white truncate max-w-[220px]"
-                    >
-                        条件を選択してください
-                    </span>
-
-                    <span id="queueProgressCount">
-                        0 / 0
-                    </span>
-
-                </div>
-
-
-                <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden border border-slate-700/50">
-
-                    <div
-                        id="queueProgressBar"
-                        class="bg-indigo-500 h-full w-0 transition-all duration-150"
-                    ></div>
+                    <input type="password"
+                           id="password"
+                           required
+                           class="w-full bg-slate-900/60 border border-slate-700 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors">
 
                 </div>
 
             </div>
 
-        </div>
+
+            <div id="loginError"
+                 class="hidden text-xs text-rose-400 bg-rose-500/10 border border-rose-500/20 rounded-lg p-2.5 text-center">
+
+                ユーザー名またはパスワードが違います
+
+            </div>
 
 
-        <!-- =====================================================
-             音量
-        ====================================================== -->
+            <button type="submit"
+                    class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2.5 rounded-xl transition-all shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2 mt-2">
 
-        <div class="flex items-center gap-4 bg-slate-900/40 px-4 py-3 rounded-xl border border-slate-700/30">
+                <i class="fa-solid fa-right-to-bracket"></i>
 
-            <i class="fa-solid fa-volume-high text-slate-400 text-sm"></i>
+                ログイン
 
-            <input
-                type="range"
-                id="masterVolume"
-                min="0"
-                max="1"
-                step="0.01"
-                value="1"
-                class="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer"
-            >
+            </button>
 
-            <span
-                id="masterVolumeVal"
-                class="text-xs text-slate-400 w-8 text-right"
-            >
-                100%
-            </span>
-
-        </div>
-
-
-        <!-- エラー -->
-
-        <div
-            id="messageBox"
-            class="hidden mt-4 p-3 bg-rose-500/10 border border-rose-500/20 rounded-xl text-rose-400 text-xs text-center"
-        ></div>
+        </form>
 
     </div>
+</div>
+
+
+
+<!-- ============================================================
+     メイン画面
+============================================================ -->
+
+<div id="mainSystem"
+     class="hidden w-full max-w-2xl bg-slate-800/90 backdrop-blur-xl border border-slate-700/60 rounded-3xl shadow-2xl p-6 md:p-8">
+
+
+    <!-- ヘッダー -->
+
+    <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-700/60">
+
+        <div>
+
+            <h1 class="text-xl font-bold tracking-tight text-white flex items-center gap-2">
+
+                <i class="fa-solid fa-music text-indigo-400"></i>
+
+                音声連続再生システム
+
+            </h1>
+
+            <p class="text-xs text-slate-400 mt-1">
+
+                カテゴリごとに音声を選択して連続再生します
+
+            </p>
+
+        </div>
+
+
+        <div class="flex items-center gap-3">
+
+            <div id="statusBadge"
+                 class="px-3 py-1 rounded-full text-xs font-medium bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 flex items-center gap-1.5">
+
+                <span class="w-2 h-2 rounded-full bg-indigo-400"></span>
+
+                準備完了
+
+            </div>
+
+
+            <button onclick="handleLogout()"
+                    class="px-3 py-1.5 rounded-xl bg-slate-700 hover:bg-slate-600 text-xs text-slate-300 hover:text-white transition-colors flex items-center gap-1.5">
+
+                <i class="fa-solid fa-right-from-bracket"></i>
+
+                ログアウト
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ========================================================
+         カテゴリ
+    ========================================================= -->
+
+    <div class="space-y-6 mb-6">
+
+
+        <!-- 原因 -->
+
+        <div class="bg-slate-900/40 p-4 rounded-2xl border border-slate-700/40">
+
+            <h2 class="text-xs font-semibold uppercase tracking-wider text-indigo-400 mb-3 flex items-center gap-2">
+
+                <i class="fa-solid fa-triangle-exclamation"></i>
+
+                １．原因（1つ選択）
+
+            </h2>
+
+            <div id="category-cause"
+                 class="grid grid-cols-3 sm:grid-cols-4 gap-2.5">
+            </div>
+
+        </div>
+
+
+
+        <!-- 区間 -->
+
+        <div class="bg-slate-900/40 p-4 rounded-2xl border border-slate-700/40">
+
+            <h2 class="text-xs font-semibold uppercase tracking-wider text-emerald-400 mb-3 flex items-center gap-2">
+
+                <i class="fa-solid fa-route"></i>
+
+                ２．区間（2つ選択）
+
+            </h2>
+
+            <div id="category-section"
+                 class="grid grid-cols-3 sm:grid-cols-5 gap-2.5">
+            </div>
+
+        </div>
+
+
+
+        <!-- 状況 -->
+
+        <div class="bg-slate-900/40 p-4 rounded-2xl border border-slate-700/40">
+
+            <h2 class="text-xs font-semibold uppercase tracking-wider text-amber-400 mb-3 flex items-center gap-2">
+
+                <i class="fa-solid fa-circle-info"></i>
+
+                ３．状況（1つ選択）
+
+            </h2>
+
+            <div id="category-status"
+                 class="grid grid-cols-3 gap-2.5">
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ========================================================
+         再生順序
+    ========================================================= -->
+
+    <div class="bg-slate-900/70 rounded-2xl p-4 mb-6 border border-slate-700/40">
+
+        <div class="flex items-center justify-between mb-3">
+
+            <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+
+                <i class="fa-solid fa-list-ol text-indigo-400"></i>
+
+                再生順序
+
+            </h3>
+
+
+            <button id="resetSelectionBtn"
+                    class="text-xs text-rose-400 hover:text-rose-300 transition-colors flex items-center gap-1">
+
+                <i class="fa-solid fa-rotate-left"></i>
+
+                選択解除
+
+            </button>
+
+        </div>
+
+
+        <div id="sequenceDisplay"
+             class="flex flex-wrap items-center gap-2 min-h-[50px] p-2 bg-slate-800/60 rounded-xl border border-slate-700/30">
+        </div>
+
+    </div>
+
+
+
+    <!-- ========================================================
+         ループ設定
+    ========================================================= -->
+
+    <div class="bg-slate-900/50 p-4 rounded-2xl border border-slate-700/40 mb-6">
+
+        <div class="flex items-center justify-between mb-3">
+
+            <label class="flex items-center gap-2 cursor-pointer select-none">
+
+                <input type="checkbox"
+                       id="loopEnableToggle"
+                       class="sr-only peer">
+
+                <div class="w-9 h-5 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-600 relative">
+                </div>
+
+                <span class="text-xs font-bold text-slate-200 flex items-center gap-1.5">
+
+                    <i class="fa-solid fa-repeat text-indigo-400"></i>
+
+                    定期ループ再生を有効にする
+
+                </span>
+
+            </label>
+
+        </div>
+
+
+        <div id="loopSettingsArea"
+             class="flex flex-col sm:flex-row items-center gap-4 opacity-50 pointer-events-none transition-all duration-200">
+
+            <div class="flex-1 w-full flex items-center gap-3">
+
+                <span class="text-xs text-slate-400 shrink-0">
+                    再生間隔:
+                </span>
+
+                <input type="range"
+                       id="loopIntervalRange"
+                       min="0"
+                       max="300"
+                       step="5"
+                       value="10"
+                       class="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer">
+
+                <div class="flex items-center gap-1 shrink-0">
+
+                    <input type="number"
+                           id="loopIntervalInput"
+                           min="0"
+                           max="300"
+                           value="10"
+                           class="w-16 bg-slate-800 border border-slate-700 text-xs rounded-lg px-2 py-1 text-center font-bold text-indigo-300 focus:outline-none focus:border-indigo-500">
+
+                    <span class="text-xs text-slate-400">
+                        秒
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ========================================================
+         プレイヤー
+    ========================================================= -->
+
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 bg-slate-900/60 p-4 rounded-2xl border border-slate-700/40 mb-4">
+
+
+        <div class="flex items-center gap-3 w-full sm:w-auto justify-center">
+
+            <button id="playQueueBtn"
+                    class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white flex items-center justify-center shadow-lg shadow-emerald-500/30 transition-all disabled:opacity-40 disabled:cursor-not-allowed hover:scale-105 active:scale-95"
+                    disabled
+                    title="再生開始">
+
+                <i id="playQueueIcon"
+                   class="fa-solid fa-play text-xl ml-0.5"></i>
+
+            </button>
+
+
+            <button id="stopQueueBtn"
+                    class="w-12 h-12 rounded-2xl bg-slate-700 hover:bg-slate-600 text-slate-200 flex items-center justify-center transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                    disabled
+                    title="停止">
+
+                <i class="fa-solid fa-stop text-base"></i>
+
+            </button>
+
+        </div>
+
+
+
+        <div class="flex-1 w-full px-2">
+
+            <div class="flex justify-between text-xs text-slate-400 mb-1">
+
+                <span id="currentPlayingLabel"
+                      class="font-medium text-white truncate max-w-[220px]">
+
+                    条件を選択してください
+
+                </span>
+
+                <span id="queueProgressCount">
+                    0 / 0
+                </span>
+
+            </div>
+
+
+            <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden border border-slate-700/50">
+
+                <div id="queueProgressBar"
+                     class="bg-indigo-500 h-full w-0 transition-all duration-150">
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ========================================================
+         音量
+    ========================================================= -->
+
+    <div class="flex items-center gap-4 bg-slate-900/40 px-4 py-3 rounded-xl border border-slate-700/30">
+
+        <i class="fa-solid fa-volume-high text-slate-400 text-sm"></i>
+
+        <input type="range"
+               id="masterVolume"
+               min="0"
+               max="1"
+               step="0.01"
+               value="1"
+               class="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer">
+
+        <span id="masterVolumeVal"
+              class="text-xs text-slate-400 w-8 text-right">
+
+            100%
+
+        </span>
+
+    </div>
+
+
+
+    <!-- ========================================================
+         メッセージ
+    ========================================================= -->
+
+    <div id="messageBox"
+         class="hidden mt-4 p-3 bg-rose-500/10 border border-rose-500/20 rounded-xl text-rose-400 text-xs text-center">
+    </div>
+
+</div>
+
 
 
 <script>
 
-/* ============================================================
-   認証
-============================================================ */
+
+// ============================================================
+// 認証
+// ============================================================
 
 const AUTH_CONFIG = {
+
     username: "moriya",
+
     password: "480031"
+
 };
 
 
@@ -542,14 +529,20 @@ function handleLogout() {
         .getElementById('loginScreen')
         .classList.remove('hidden');
 
-    document.getElementById('username').value = '';
-    document.getElementById('password').value = '';
+    document
+        .getElementById('username')
+        .value = '';
+
+    document
+        .getElementById('password')
+        .value = '';
 }
 
 
-/* ============================================================
-   音声データ
-============================================================ */
+
+// ============================================================
+// 音声データ
+// ============================================================
 
 const categories = {
 
@@ -710,92 +703,196 @@ const categories = {
 };
 
 
-/* ============================================================
-   固定音声
-============================================================ */
+
+// ============================================================
+// 固定音声
+// ============================================================
 
 const fixedAudios = {
 
     '1': {
         id: '只今常総線は、',
-        name: '',
         path: 'audio/1.MP3'
     },
 
     '2': {
         id: 'の影響で',
-        name: '',
         path: 'audio/2.MP3'
     },
 
     '3': {
         id: 'から',
-        name: '',
         path: 'audio/3.MP3'
     },
 
     '4': {
         id: 'の間で',
-        name: '',
         path: 'audio/4.MP3'
     }
 
 };
 
 
-/* ============================================================
-   Web Audio API
-============================================================ */
+
+// ============================================================
+// Web Audio API
+// ============================================================
 
 let audioContext = null;
 
 let masterGainNode = null;
 
 
-/*
- * MP3をデコードしたAudioBufferを保存
- *
- * path
- *   ↓
- * AudioBuffer
- */
+// 個別にデコードしたAudioBuffer
 const audioBufferCache = new Map();
 
 
-/*
- * 現在の結合済みAudioBuffer
- */
-let currentCombinedBuffer = null;
+// 現在の「連結済みAudioBuffer」
+let combinedAudioBuffer = null;
 
 
-/*
- * 現在のAudioBufferSourceNode
- */
-let currentSource = null;
+// 連結音声内の各音声の開始位置・長さ
+let combinedSegments = [];
 
 
-/*
- * 再生開始時刻
- */
-let playbackStartTime = 0;
+// 現在再生中のAudioBufferSourceNode
+let currentSourceNode = null;
 
 
-/*
- * 進捗更新用requestAnimationFrame
- */
-let progressAnimationId = null;
+// 連結音声の再生開始時刻
+let playbackStartedAt = 0;
 
 
-/*
- * 現在の音声ごとの開始位置
- */
-let currentSegmentInfo = [];
+// 連結音声の再生停止位置
+let playbackOffset = 0;
 
 
-/*
- * AudioContextを作成
- */
-function initAudioContext() {
+
+// ============================================================
+// 選択状態
+// ============================================================
+
+let selectedCause = null;
+
+let selectedSections = [];
+
+let selectedStatus = null;
+
+
+
+// ============================================================
+// 再生状態
+// ============================================================
+
+let isPlayingQueue = false;
+
+let masterVolume = 1.0;
+
+let playbackSessionId = 0;
+
+
+
+// ============================================================
+// ループ
+// ============================================================
+
+let isLoopEnabled = false;
+
+let loopIntervalSeconds = 10;
+
+let countdownTimerId = null;
+
+let remainingCountdown = 0;
+
+
+
+// ============================================================
+// DOM
+// ============================================================
+
+const categoryCauseContainer =
+    document.getElementById('category-cause');
+
+const categorySectionContainer =
+    document.getElementById('category-section');
+
+const categoryStatusContainer =
+    document.getElementById('category-status');
+
+const sequenceDisplay =
+    document.getElementById('sequenceDisplay');
+
+const playQueueBtn =
+    document.getElementById('playQueueBtn');
+
+const playQueueIcon =
+    document.getElementById('playQueueIcon');
+
+const stopQueueBtn =
+    document.getElementById('stopQueueBtn');
+
+const resetSelectionBtn =
+    document.getElementById('resetSelectionBtn');
+
+const statusBadge =
+    document.getElementById('statusBadge');
+
+const currentPlayingLabel =
+    document.getElementById('currentPlayingLabel');
+
+const queueProgressCount =
+    document.getElementById('queueProgressCount');
+
+const queueProgressBar =
+    document.getElementById('queueProgressBar');
+
+const masterVolumeInput =
+    document.getElementById('masterVolume');
+
+const masterVolumeVal =
+    document.getElementById('masterVolumeVal');
+
+const messageBox =
+    document.getElementById('messageBox');
+
+const loopEnableToggle =
+    document.getElementById('loopEnableToggle');
+
+const loopSettingsArea =
+    document.getElementById('loopSettingsArea');
+
+const loopIntervalRange =
+    document.getElementById('loopIntervalRange');
+
+const loopIntervalInput =
+    document.getElementById('loopIntervalInput');
+
+
+
+// ============================================================
+// メッセージ
+// ============================================================
+
+function showMessage(text) {
+
+    messageBox.textContent = text;
+
+    messageBox.classList.remove('hidden');
+
+    setTimeout(() => {
+
+        messageBox.classList.add('hidden');
+
+    }, 5000);
+}
+
+
+
+// ============================================================
+// AudioContext初期化
+// ============================================================
+
+async function initAudioContext() {
 
     if (!audioContext) {
 
@@ -809,6 +906,7 @@ function initAudioContext() {
                 'このブラウザはWeb Audio APIに対応していません。'
             );
         }
+
 
         audioContext =
             new AudioContextClass();
@@ -829,41 +927,51 @@ function initAudioContext() {
     }
 
 
-    return audioContext;
-}
-
-
-/*
- * AudioContextを再開
- *
- * iPad Safari対策
- */
-async function resumeAudioContext() {
-
-    initAudioContext();
+    /*
+     * iPad Safari対策
+     *
+     * 再生ボタンのユーザー操作から
+     * AudioContextをrunning状態へ戻す。
+     */
 
     if (
-        audioContext.state === 'suspended'
+        audioContext.state !== 'running'
     ) {
 
         await audioContext.resume();
 
     }
 
+
+    console.log(
+        'AudioContext state:',
+        audioContext.state
+    );
+
+
+    if (
+        audioContext.state !== 'running'
+    ) {
+
+        throw new Error(
+            `AudioContextを起動できませんでした。現在の状態: ${audioContext.state}`
+        );
+
+    }
+
 }
 
 
-/* ============================================================
-   音声ファイルをデコード
-============================================================ */
+
+// ============================================================
+// 個別音声をデコード
+// ============================================================
 
 async function loadAudioBuffer(path) {
 
-    /*
-     * すでにデコード済みなら再利用
-     */
-
-    if (audioBufferCache.has(path)) {
+    if (
+        audioBufferCache.has(path)
+    ) {
 
         return audioBufferCache.get(path);
 
@@ -877,7 +985,8 @@ async function loadAudioBuffer(path) {
 
 
     /*
-     * 日本語ファイル名にも対応
+     * 日本語ファイル名でもfetch可能。
+     * encodeURIを使用してURLとして安全にする。
      */
 
     const encodedPath =
@@ -885,15 +994,18 @@ async function loadAudioBuffer(path) {
 
 
     const response =
-        await fetch(encodedPath, {
-            cache: 'force-cache'
-        });
+        await fetch(
+            encodedPath,
+            {
+                cache: 'force-cache'
+            }
+        );
 
 
     if (!response.ok) {
 
         throw new Error(
-            `音声ファイルを取得できません: ${path} (${response.status})`
+            `${path} の読み込みに失敗しました HTTP ${response.status}`
         );
 
     }
@@ -903,19 +1015,41 @@ async function loadAudioBuffer(path) {
         await response.arrayBuffer();
 
 
-    /*
-     * decodeAudioData
-     */
+    if (
+        arrayBuffer.byteLength === 0
+    ) {
 
-    const audioBuffer =
-        await audioContext.decodeAudioData(
-            arrayBuffer
+        throw new Error(
+            `${path} が空のファイルです`
         );
 
+    }
 
-    /*
-     * キャッシュ
-     */
+
+    let audioBuffer;
+
+
+    try {
+
+        audioBuffer =
+            await audioContext.decodeAudioData(
+                arrayBuffer
+            );
+
+    } catch (error) {
+
+        console.error(
+            'decodeAudioData error:',
+            path,
+            error
+        );
+
+        throw new Error(
+            `${path} の音声デコードに失敗しました`
+        );
+
+    }
+
 
     audioBufferCache.set(
         path,
@@ -931,820 +1065,14 @@ async function loadAudioBuffer(path) {
 
 
     return audioBuffer;
-}
-
-
-/* ============================================================
-   AudioBufferを結合
-============================================================ */
-
-function combineAudioBuffers(buffers) {
-
-    if (!buffers.length) {
-
-        return null;
-
-    }
-
-
-    /*
-     * 今回の音声ファイルは基本的に
-     * 同じMP3仕様であることを想定
-     *
-     * 1つ目の音声を基準にする
-     */
-
-    const sampleRate =
-        buffers[0].sampleRate;
-
-
-    /*
-     * ステレオ音源とモノラル音源が混ざっていても
-     * ある程度対応できるよう最大チャンネル数を使用
-     */
-
-    const numberOfChannels =
-        Math.max(
-            ...buffers.map(
-                buffer => buffer.numberOfChannels
-            )
-        );
-
-
-    /*
-     * 全体のサンプル数
-     */
-
-    let totalLength = 0;
-
-
-    buffers.forEach(buffer => {
-
-        /*
-         * 通常は同じsampleRateなのでそのまま使用
-         *
-         * 万一違う場合は時間比率で調整
-         */
-
-        const adjustedLength =
-            Math.round(
-                buffer.length *
-                sampleRate /
-                buffer.sampleRate
-            );
-
-        totalLength += adjustedLength;
-
-    });
-
-
-    /*
-     * 結合後のAudioBuffer
-     */
-
-    const combinedBuffer =
-        audioContext.createBuffer(
-            numberOfChannels,
-            totalLength,
-            sampleRate
-        );
-
-
-    /*
-     * 各音声の開始位置を記録
-     *
-     * 進捗表示に使用
-     */
-
-    currentSegmentInfo = [];
-
-
-    let offset = 0;
-
-
-    buffers.forEach((buffer, index) => {
-
-        const startSample =
-            offset;
-
-
-        const duration =
-            buffer.duration;
-
-
-        /*
-         * sampleRateが同じ場合
-         */
-
-        if (
-            buffer.sampleRate === sampleRate
-        ) {
-
-            for (
-                let channel = 0;
-                channel < numberOfChannels;
-                channel++
-            ) {
-
-                const target =
-                    combinedBuffer.getChannelData(
-                        channel
-                    );
-
-
-                if (
-                    channel <
-                    buffer.numberOfChannels
-                ) {
-
-                    target.set(
-                        buffer.getChannelData(channel),
-                        offset
-                    );
-
-                } else {
-
-                    /*
-                     * モノラル → ステレオなどの場合
-                     * 反対チャンネルにもコピー
-                     */
-
-                    if (
-                        buffer.numberOfChannels === 1
-                    ) {
-
-                        target.set(
-                            buffer.getChannelData(0),
-                            offset
-                        );
-
-                    }
-
-                }
-
-            }
-
-
-            offset += buffer.length;
-
-        } else {
-
-            /*
-             * sampleRateが違う場合
-             *
-             * 簡易リサンプリング
-             */
-
-            const ratio =
-                sampleRate /
-                buffer.sampleRate;
-
-
-            const newLength =
-                Math.round(
-                    buffer.length * ratio
-                );
-
-
-            for (
-                let channel = 0;
-                channel < numberOfChannels;
-                channel++
-            ) {
-
-                const target =
-                    combinedBuffer.getChannelData(
-                        channel
-                    );
-
-
-                const sourceChannel =
-                    Math.min(
-                        channel,
-                        buffer.numberOfChannels - 1
-                    );
-
-
-                const source =
-                    buffer.getChannelData(
-                        sourceChannel
-                    );
-
-
-                for (
-                    let i = 0;
-                    i < newLength;
-                    i++
-                ) {
-
-                    const sourceIndex =
-                        Math.min(
-                            Math.floor(i / ratio),
-                            source.length - 1
-                        );
-
-
-                    target[
-                        offset + i
-                    ] =
-                        source[sourceIndex];
-
-                }
-
-            }
-
-
-            offset += newLength;
-
-        }
-
-
-        currentSegmentInfo.push({
-
-            index,
-
-            startTime:
-                startSample / sampleRate,
-
-            endTime:
-                offset / sampleRate,
-
-            duration
-
-        });
-
-    });
-
-
-    return combinedBuffer;
-}
-
-
-/* ============================================================
-   キューを1本のAudioBufferへ変換
-============================================================ */
-
-async function buildCombinedAudioBuffer(queue) {
-
-    const buffers = [];
-
-
-    for (
-        let i = 0;
-        i < queue.length;
-        i++
-    ) {
-
-        /*
-         * 選択を変更・停止された場合は中止
-         */
-
-        if (!isPlayingQueue) {
-
-            return null;
-
-        }
-
-
-        const item =
-            queue[i];
-
-
-        /*
-         * 現在の準備状況を表示
-         */
-
-        currentPlayingLabel.textContent =
-            `音声準備中 (${i + 1}/${queue.length}): ${item.id}`;
-
-
-        queueProgressCount.textContent =
-            `${i + 1} / ${queue.length}`;
-
-
-        const buffer =
-            await loadAudioBuffer(
-                item.path
-            );
-
-
-        buffers.push(buffer);
-
-    }
-
-
-    return combineAudioBuffers(
-        buffers
-    );
-}
-
-
-/* ============================================================
-   選択状態
-============================================================ */
-
-let selectedCause = null;
-
-let selectedSections = [];
-
-let selectedStatus = null;
-
-
-/* ============================================================
-   再生状態
-============================================================ */
-
-let isPlayingQueue = false;
-
-let currentQueueIndex = -1;
-
-let masterVolume = 1.0;
-
-
-/*
- * 古い再生処理を無効化するセッション番号
- */
-
-let playbackSessionId = 0;
-
-
-/* ============================================================
-   ループ
-============================================================ */
-
-let isLoopEnabled = false;
-
-let loopIntervalSeconds = 10;
-
-let countdownTimerId = null;
-
-let remainingCountdown = 0;
-
-
-/* ============================================================
-   DOM
-============================================================ */
-
-const categoryCauseContainer =
-    document.getElementById(
-        'category-cause'
-    );
-
-
-const categorySectionContainer =
-    document.getElementById(
-        'category-section'
-    );
-
-
-const categoryStatusContainer =
-    document.getElementById(
-        'category-status'
-    );
-
-
-const sequenceDisplay =
-    document.getElementById(
-        'sequenceDisplay'
-    );
-
-
-const playQueueBtn =
-    document.getElementById(
-        'playQueueBtn'
-    );
-
-
-const playQueueIcon =
-    document.getElementById(
-        'playQueueIcon'
-    );
-
-
-const stopQueueBtn =
-    document.getElementById(
-        'stopQueueBtn'
-    );
-
-
-const resetSelectionBtn =
-    document.getElementById(
-        'resetSelectionBtn'
-    );
-
-
-const statusBadge =
-    document.getElementById(
-        'statusBadge'
-    );
-
-
-const currentPlayingLabel =
-    document.getElementById(
-        'currentPlayingLabel'
-    );
-
-
-const queueProgressCount =
-    document.getElementById(
-        'queueProgressCount'
-    );
-
-
-const queueProgressBar =
-    document.getElementById(
-        'queueProgressBar'
-    );
-
-
-const masterVolumeInput =
-    document.getElementById(
-        'masterVolume'
-    );
-
-
-const masterVolumeVal =
-    document.getElementById(
-        'masterVolumeVal'
-    );
-
-
-const messageBox =
-    document.getElementById(
-        'messageBox'
-    );
-
-
-const loopEnableToggle =
-    document.getElementById(
-        'loopEnableToggle'
-    );
-
-
-const loopSettingsArea =
-    document.getElementById(
-        'loopSettingsArea'
-    );
-
-
-const loopIntervalRange =
-    document.getElementById(
-        'loopIntervalRange'
-    );
-
-
-const loopIntervalInput =
-    document.getElementById(
-        'loopIntervalInput'
-    );
-
-
-/* ============================================================
-   メッセージ
-============================================================ */
-
-let messageTimerId = null;
-
-
-function showMessage(text) {
-
-    messageBox.textContent =
-        text;
-
-    messageBox.classList.remove(
-        'hidden'
-    );
-
-
-    if (messageTimerId) {
-
-        clearTimeout(
-            messageTimerId
-        );
-
-    }
-
-
-    messageTimerId =
-        setTimeout(() => {
-
-            messageBox.classList.add(
-                'hidden'
-            );
-
-        }, 5000);
 
 }
 
 
-/* ============================================================
-   ループ設定
-============================================================ */
 
-loopEnableToggle.addEventListener(
-    'change',
-    (e) => {
-
-        isLoopEnabled =
-            e.target.checked;
-
-
-        if (isLoopEnabled) {
-
-            loopSettingsArea.classList.remove(
-                'opacity-50',
-                'pointer-events-none'
-            );
-
-        } else {
-
-            loopSettingsArea.classList.add(
-                'opacity-50',
-                'pointer-events-none'
-            );
-
-            clearLoopTimers();
-
-        }
-
-    }
-);
-
-
-loopIntervalRange.addEventListener(
-    'input',
-    (e) => {
-
-        loopIntervalSeconds =
-            parseInt(
-                e.target.value,
-                10
-            ) || 0;
-
-
-        loopIntervalInput.value =
-            loopIntervalSeconds;
-
-    }
-);
-
-
-loopIntervalInput.addEventListener(
-    'change',
-    (e) => {
-
-        let val =
-            parseInt(
-                e.target.value,
-                10
-            ) || 0;
-
-
-        if (val < 0) {
-            val = 0;
-        }
-
-
-        if (val > 300) {
-            val = 300;
-        }
-
-
-        loopIntervalSeconds =
-            val;
-
-
-        loopIntervalInput.value =
-            val;
-
-
-        loopIntervalRange.value =
-            val;
-
-    }
-);
-
-
-/* ============================================================
-   カテゴリボタン
-============================================================ */
-
-function renderCategoryButtons() {
-
-    renderGroup(
-        categories.cause,
-        categoryCauseContainer,
-        'cause'
-    );
-
-
-    renderGroup(
-        categories.section,
-        categorySectionContainer,
-        'section'
-    );
-
-
-    renderGroup(
-        categories.status,
-        categoryStatusContainer,
-        'status'
-    );
-
-}
-
-
-function renderGroup(
-    items,
-    container,
-    groupType
-) {
-
-    container.innerHTML = '';
-
-
-    items.forEach(item => {
-
-        const btn =
-            document.createElement(
-                'button'
-            );
-
-
-        const isSelected =
-            isItemSelected(
-                groupType,
-                item
-            );
-
-
-        btn.className =
-            `p-2.5 rounded-xl border text-center font-bold
-             transition-all transform active:scale-95 ${
-                isSelected
-                    ? `bg-gradient-to-tr ${item.color}
-                       border-white text-white shadow-lg
-                       ring-2 ring-indigo-400`
-                    : `bg-slate-800/80 border-slate-700/60
-                       text-slate-300 hover:bg-slate-700/80`
-            }`;
-
-
-        btn.innerHTML = `
-            <div class="text-xs sm:text-sm font-black truncate">
-                ${item.id}
-            </div>
-        `;
-
-
-        btn.addEventListener(
-            'click',
-            () => handleSelect(
-                groupType,
-                item
-            )
-        );
-
-
-        container.appendChild(
-            btn
-        );
-
-    });
-
-}
-
-
-function isItemSelected(
-    groupType,
-    item
-) {
-
-    if (groupType === 'cause') {
-
-        return selectedCause?.id === item.id;
-
-    }
-
-
-    if (groupType === 'section') {
-
-        return selectedSections.some(
-            s => s.id === item.id
-        );
-
-    }
-
-
-    if (groupType === 'status') {
-
-        return selectedStatus?.id === item.id;
-
-    }
-
-
-    return false;
-}
-
-
-/* ============================================================
-   選択
-============================================================ */
-
-function handleSelect(
-    groupType,
-    item
-) {
-
-    if (isPlayingQueue) {
-
-        showMessage(
-            '再生中は選択を変更できません。'
-        );
-
-        return;
-
-    }
-
-
-    if (groupType === 'cause') {
-
-        selectedCause =
-            selectedCause?.id === item.id
-                ? null
-                : item;
-
-    }
-
-
-    else if (
-        groupType === 'section'
-    ) {
-
-        const existsIndex =
-            selectedSections.findIndex(
-                s => s.id === item.id
-            );
-
-
-        if (existsIndex > -1) {
-
-            selectedSections.splice(
-                existsIndex,
-                1
-            );
-
-        } else {
-
-            if (
-                selectedSections.length >= 2
-            ) {
-
-                selectedSections.shift();
-
-            }
-
-
-            selectedSections.push(
-                item
-            );
-
-        }
-
-    }
-
-
-    else if (
-        groupType === 'status'
-    ) {
-
-        selectedStatus =
-            selectedStatus?.id === item.id
-                ? null
-                : item;
-
-    }
-
-
-    /*
-     * 選択変更時は結合済み音声を破棄
-     *
-     * 個別AudioBufferのキャッシュは残す
-     */
-
-    currentCombinedBuffer = null;
-
-
-    renderCategoryButtons();
-
-    updateSequenceUI();
-
-}
-
-
-/* ============================================================
-   再生キュー
-============================================================ */
+// ============================================================
+// キュー作成
+// ============================================================
 
 function buildPlayQueue() {
 
@@ -1808,23 +1136,527 @@ function buildPlayQueue() {
 
 
     return queue;
+
 }
 
+
+
+// ============================================================
+// すべての音声をデコードして1本に連結
+// ============================================================
+
+async function prepareCombinedAudio() {
+
+    await initAudioContext();
+
+
+    const queue =
+        buildPlayQueue();
+
+
+    if (
+        !isSelectionComplete()
+    ) {
+
+        throw new Error(
+            'すべての条件を選択してください'
+        );
+
+    }
+
+
+    console.log(
+        '連結音声の準備開始'
+    );
+
+
+    currentPlayingLabel.textContent =
+        '音声を準備しています...';
+
+
+    queueProgressCount.textContent =
+        `0 / ${queue.length}`;
+
+
+    /*
+     * まず全ファイルをデコード
+     */
+
+    const buffers = [];
+
+
+    for (
+        let i = 0;
+        i < queue.length;
+        i++
+    ) {
+
+        const item =
+            queue[i];
+
+
+        currentPlayingLabel.textContent =
+            `音声を準備中 (${i + 1}/${queue.length}): ${item.id}`;
+
+
+        queueProgressCount.textContent =
+            `${i + 1} / ${queue.length}`;
+
+
+        const buffer =
+            await loadAudioBuffer(
+                item.path
+            );
+
+
+        buffers.push(
+            buffer
+        );
+
+    }
+
+
+    /*
+     * AudioContextのサンプルレートに合わせる。
+     *
+     * decodeAudioData()によってAudioBufferは
+     * AudioContextのsampleRateへ変換される。
+     */
+
+    const sampleRate =
+        audioContext.sampleRate;
+
+
+    /*
+     * 最大チャンネル数を取得
+     */
+
+    let numberOfChannels = 1;
+
+
+    buffers.forEach(buffer => {
+
+        numberOfChannels =
+            Math.max(
+                numberOfChannels,
+                buffer.numberOfChannels
+            );
+
+    });
+
+
+    /*
+     * 全音声の総サンプル数
+     */
+
+    let totalLength = 0;
+
+
+    buffers.forEach(buffer => {
+
+        totalLength +=
+            buffer.length;
+
+    });
+
+
+    /*
+     * 連結用AudioBufferを作成
+     */
+
+    const combinedBuffer =
+        audioContext.createBuffer(
+            numberOfChannels,
+            totalLength,
+            sampleRate
+        );
+
+
+    /*
+     * 各音声を順番にコピー
+     */
+
+    let writeOffset = 0;
+
+    combinedSegments = [];
+
+
+    for (
+        let i = 0;
+        i < buffers.length;
+        i++
+    ) {
+
+        const buffer =
+            buffers[i];
+
+
+        const startTime =
+            writeOffset / sampleRate;
+
+
+        /*
+         * セグメント情報を保存
+         *
+         * 進捗表示に使用する。
+         */
+
+        combinedSegments.push({
+
+            index: i,
+
+            id: queue[i].id,
+
+            startTime: startTime,
+
+            duration: buffer.duration,
+
+            endTime:
+                startTime +
+                buffer.duration
+
+        });
+
+
+        /*
+         * チャンネルごとにコピー
+         */
+
+        for (
+            let channel = 0;
+            channel < numberOfChannels;
+            channel++
+        ) {
+
+            const destination =
+                combinedBuffer.getChannelData(
+                    channel
+                );
+
+
+            /*
+             * 元音声にそのチャンネルが存在しない場合、
+             * 無音として扱う。
+             */
+
+            if (
+                channel <
+                buffer.numberOfChannels
+            ) {
+
+                const source =
+                    buffer.getChannelData(
+                        channel
+                    );
+
+
+                destination.set(
+                    source,
+                    writeOffset
+                );
+
+            }
+
+        }
+
+
+        writeOffset +=
+            buffer.length;
+
+    }
+
+
+    combinedAudioBuffer =
+        combinedBuffer;
+
+
+    console.log(
+        '連結音声準備完了:',
+        combinedBuffer.duration,
+        '秒'
+    );
+
+
+    currentPlayingLabel.textContent =
+        '再生準備完了';
+
+
+    queueProgressCount.textContent =
+        `${queue.length} / ${queue.length}`;
+
+
+    queueProgressBar.style.width =
+        '0%';
+
+
+    return combinedBuffer;
+
+}
+
+
+
+// ============================================================
+// 選択完了判定
+// ============================================================
 
 function isSelectionComplete() {
 
     return (
+
         selectedCause !== null &&
+
         selectedSections.length === 2 &&
+
         selectedStatus !== null
+
     );
 
 }
 
 
-/* ============================================================
-   シーケンス表示
-============================================================ */
+
+// ============================================================
+// カテゴリ表示
+// ============================================================
+
+function renderCategoryButtons() {
+
+    renderGroup(
+        categories.cause,
+        categoryCauseContainer,
+        'cause'
+    );
+
+
+    renderGroup(
+        categories.section,
+        categorySectionContainer,
+        'section'
+    );
+
+
+    renderGroup(
+        categories.status,
+        categoryStatusContainer,
+        'status'
+    );
+
+}
+
+
+
+function renderGroup(
+    items,
+    container,
+    groupType
+) {
+
+    container.innerHTML = '';
+
+
+    items.forEach(item => {
+
+        const btn =
+            document.createElement('button');
+
+
+        const isSelected =
+            isItemSelected(
+                groupType,
+                item
+            );
+
+
+        btn.className =
+            `p-2.5 rounded-xl border text-center font-bold
+             transition-all transform active:scale-95 ${
+                isSelected
+                    ? `bg-gradient-to-tr ${item.color}
+                       border-white text-white shadow-lg
+                       ring-2 ring-indigo-400`
+                    : `bg-slate-800/80 border-slate-700/60
+                       text-slate-300 hover:bg-slate-700/80`
+            }`;
+
+
+        btn.innerHTML = `
+
+            <div class="text-xs sm:text-sm font-black truncate">
+
+                ${item.id}
+
+            </div>
+
+        `;
+
+
+        btn.addEventListener(
+            'click',
+            () => {
+
+                handleSelect(
+                    groupType,
+                    item
+                );
+
+            }
+        );
+
+
+        container.appendChild(btn);
+
+    });
+
+}
+
+
+
+function isItemSelected(
+    groupType,
+    item
+) {
+
+    if (
+        groupType === 'cause'
+    ) {
+
+        return (
+            selectedCause?.id === item.id
+        );
+
+    }
+
+
+    if (
+        groupType === 'section'
+    ) {
+
+        return selectedSections.some(
+            s => s.id === item.id
+        );
+
+    }
+
+
+    if (
+        groupType === 'status'
+    ) {
+
+        return (
+            selectedStatus?.id === item.id
+        );
+
+    }
+
+
+    return false;
+
+}
+
+
+
+// ============================================================
+// 選択処理
+// ============================================================
+
+function handleSelect(
+    groupType,
+    item
+) {
+
+    if (isPlayingQueue) {
+
+        showMessage(
+            '再生中は選択を変更できません。'
+        );
+
+        return;
+
+    }
+
+
+    /*
+     * 条件を変更したら、
+     * 以前作った連結AudioBufferを破棄する。
+     */
+
+    combinedAudioBuffer = null;
+
+
+    if (
+        groupType === 'cause'
+    ) {
+
+        selectedCause =
+            selectedCause?.id === item.id
+                ? null
+                : item;
+
+    }
+
+
+    else if (
+        groupType === 'section'
+    ) {
+
+        const existsIndex =
+            selectedSections.findIndex(
+                s => s.id === item.id
+            );
+
+
+        if (
+            existsIndex > -1
+        ) {
+
+            selectedSections.splice(
+                existsIndex,
+                1
+            );
+
+        } else {
+
+            if (
+                selectedSections.length >= 2
+            ) {
+
+                selectedSections.shift();
+
+            }
+
+
+            selectedSections.push(
+                item
+            );
+
+        }
+
+    }
+
+
+    else if (
+        groupType === 'status'
+    ) {
+
+        selectedStatus =
+            selectedStatus?.id === item.id
+                ? null
+                : item;
+
+    }
+
+
+    renderCategoryButtons();
+
+    updateSequenceUI();
+
+}
+
+
+
+// ============================================================
+// シーケンス表示
+// ============================================================
 
 function updateSequenceUI() {
 
@@ -1839,6 +1671,7 @@ function updateSequenceUI() {
         (item, index) => {
 
             const isFixed =
+
                 item === fixedAudios['1'] ||
                 item === fixedAudios['2'] ||
                 item === fixedAudios['3'] ||
@@ -1846,9 +1679,7 @@ function updateSequenceUI() {
 
 
             const pill =
-                document.createElement(
-                    'div'
-                );
+                document.createElement('div');
 
 
             pill.className =
@@ -1861,11 +1692,19 @@ function updateSequenceUI() {
 
 
             pill.innerHTML = `
+
                 <span class="text-[10px] text-slate-400 font-mono">
+
                     ${index + 1}.
+
                 </span>
 
-                <span>${item.id}</span>
+                <span>
+
+                    ${item.id}
+
+                </span>
+
             `;
 
 
@@ -1915,9 +1754,10 @@ function updateSequenceUI() {
 }
 
 
-/* ============================================================
-   リセット
-============================================================ */
+
+// ============================================================
+// リセット
+// ============================================================
 
 resetSelectionBtn.addEventListener(
     'click',
@@ -1930,14 +1770,15 @@ resetSelectionBtn.addEventListener(
         }
 
 
+        combinedAudioBuffer = null;
+
+        combinedSegments = [];
+
         selectedCause = null;
 
         selectedSections = [];
 
         selectedStatus = null;
-
-
-        currentCombinedBuffer = null;
 
 
         renderCategoryButtons();
@@ -1948,18 +1789,109 @@ resetSelectionBtn.addEventListener(
 );
 
 
-/* ============================================================
-   再生開始
-============================================================ */
+
+// ============================================================
+// 連結AudioBuffer再生
+// ============================================================
+
+function startCombinedPlayback() {
+
+    return new Promise(
+        (resolve, reject) => {
+
+            if (
+                !audioContext ||
+                !masterGainNode ||
+                !combinedAudioBuffer
+            ) {
+
+                reject(
+                    new Error(
+                        '再生用AudioBufferが準備されていません'
+                    )
+                );
+
+                return;
+
+            }
+
+
+            /*
+             * AudioBufferSourceNodeは一度しかstartできない。
+             *
+             * そのため再生するたびに新しいNodeを作る。
+             */
+
+            const source =
+                audioContext.createBufferSource();
+
+
+            source.buffer =
+                combinedAudioBuffer;
+
+
+            source.connect(
+                masterGainNode
+            );
+
+
+            currentSourceNode =
+                source;
+
+
+            playbackStartedAt =
+                audioContext.currentTime;
+
+
+            playbackOffset = 0;
+
+
+            source.onended = () => {
+
+                if (
+                    currentSourceNode === source
+                ) {
+
+                    currentSourceNode = null;
+
+                }
+
+
+                resolve();
+
+            };
+
+
+            try {
+
+                /*
+                 * 0秒から再生。
+                 */
+
+                source.start(0);
+
+            } catch (error) {
+
+                currentSourceNode = null;
+
+                reject(error);
+
+            }
+
+        }
+    );
+
+}
+
+
+
+// ============================================================
+// 再生開始
+// ============================================================
 
 async function playQueueSequence() {
 
-    const queue =
-        buildPlayQueue();
-
-
     if (
-        queue.length === 0 ||
         !isSelectionComplete()
     ) {
 
@@ -1969,20 +1901,20 @@ async function playQueueSequence() {
 
 
     /*
-     * 新しいセッション
+     * 新しい再生セッション。
      */
 
     playbackSessionId++;
 
 
-    const sessionId =
+    const session =
         playbackSessionId;
 
 
+    clearLoopTimers();
+
+
     isPlayingQueue = true;
-
-
-    currentQueueIndex = 0;
 
 
     playQueueBtn.setAttribute(
@@ -1997,49 +1929,42 @@ async function playQueueSequence() {
 
 
     playQueueIcon.className =
-        'fa-solid fa-spinner animate-spin text-xl';
+        'fa-solid fa-rotate animate-spin text-xl';
 
 
-    statusBadge.className =
-        'px-3 py-1 rounded-full text-xs font-medium ' +
-        'bg-blue-500/10 text-blue-400 ' +
-        'border border-blue-500/20 ' +
-        'flex items-center gap-1.5';
-
-
-    statusBadge.innerHTML =
-        '<span class="w-2 h-2 rounded-full ' +
-        'bg-blue-400 animate-pulse"></span>準備中';
+    setPlayingStatus();
 
 
     try {
 
         /*
-         * 再生ボタンのユーザー操作内で
-         * AudioContextを開始
+         * 念のため再生直前にもAudioContextを確認。
          */
 
-        await resumeAudioContext();
+        await initAudioContext();
 
 
         /*
-         * 音声を全部デコードして結合
+         * 条件変更後などでAudioBufferがない場合、
+         * ここで作成。
          */
 
-        const combinedBuffer =
-            await buildCombinedAudioBuffer(
-                queue
-            );
+        if (
+            !combinedAudioBuffer
+        ) {
+
+            await prepareCombinedAudio();
+
+        }
 
 
         /*
-         * 停止されていたら終了
+         * Stopされた場合はここで終了。
          */
 
         if (
             !isPlayingQueue ||
-            sessionId !== playbackSessionId ||
-            !combinedBuffer
+            session !== playbackSessionId
         ) {
 
             return;
@@ -2047,166 +1972,42 @@ async function playQueueSequence() {
         }
 
 
-        currentCombinedBuffer =
-            combinedBuffer;
-
-
-        /*
-         * 1本のAudioBufferとして再生
-         */
-
-        playCombinedBuffer(
-            combinedBuffer,
-            sessionId,
-            queue
-        );
-
-
-    } catch (error) {
-
-        console.error(
-            '音声準備エラー:',
-            error
-        );
-
-
-        showMessage(
-            `音声の準備に失敗しました: ${error.message}`
-        );
-
-
-        finishQueue();
-
-    }
-
-}
-
-
-/* ============================================================
-   AudioBuffer再生
-============================================================ */
-
-function playCombinedBuffer(
-    buffer,
-    sessionId,
-    queue
-) {
-
-    if (
-        !audioContext ||
-        !masterGainNode ||
-        !buffer
-    ) {
-
-        return;
-
-    }
-
-
-    /*
-     * 前のSourceを停止
-     */
-
-    if (currentSource) {
-
-        try {
-
-            currentSource.stop();
-
-        } catch (e) {}
-
-
-        try {
-
-            currentSource.disconnect();
-
-        } catch (e) {}
-
-
-        currentSource = null;
-
-    }
-
-
-    /*
-     * AudioBufferSourceNodeは
-     * 再生するたびに新しく作る
-     */
-
-    const source =
-        audioContext.createBufferSource();
-
-
-    source.buffer =
-        buffer;
-
-
-    source.connect(
-        masterGainNode
-    );
-
-
-    currentSource =
-        source;
-
-
-    playbackStartTime =
-        audioContext.currentTime;
-
-
-    currentPlayingLabel.textContent =
-        '再生中';
-
-
-    queueProgressCount.textContent =
-        `1 / ${queue.length}`;
-
-
-    queueProgressBar.style.width =
-        '0%';
-
-
-    statusBadge.className =
-        'px-3 py-1 rounded-full text-xs font-medium ' +
-        'bg-emerald-500/10 text-emerald-400 ' +
-        'border border-emerald-500/20 ' +
-        'flex items-center gap-1.5';
-
-
-    statusBadge.innerHTML =
-        '<span class="w-2 h-2 rounded-full ' +
-        'bg-emerald-400 animate-pulse"></span>再生中';
-
-
-    /*
-     * 再生終了
-     */
-
-    source.onended = () => {
-
-        if (
-            !isPlayingQueue ||
-            sessionId !== playbackSessionId
-        ) {
-
-            return;
-
-        }
-
-
-        currentSource = null;
-
-
-        stopProgressAnimation();
+        currentPlayingLabel.textContent =
+            '再生中';
 
 
         queueProgressBar.style.width =
-            '100%';
+            '0%';
 
 
         queueProgressCount.textContent =
-            `${queue.length} / ${queue.length}`;
+            `1 / ${buildPlayQueue().length}`;
 
+
+        /*
+         * 1本に連結された音声を再生。
+         */
+
+        await startCombinedPlayback();
+
+
+        /*
+         * Stopされた場合。
+         */
+
+        if (
+            !isPlayingQueue ||
+            session !== playbackSessionId
+        ) {
+
+            return;
+
+        }
+
+
+        /*
+         * 1周終了
+         */
 
         if (isLoopEnabled) {
 
@@ -2218,72 +2019,16 @@ function playCombinedBuffer(
 
         }
 
-    };
-
-
-    /*
-     * 1回だけ開始
-     *
-     * ここがHTMLAudio方式との最大の違い
-     */
-
-    try {
-
-        source.start(0);
-
     } catch (error) {
 
         console.error(
-            'AudioBuffer再生開始エラー:',
+            '再生エラー:',
             error
         );
 
 
-        showMessage(
-            '音声の再生を開始できませんでした。'
-        );
-
-
-        finishQueue();
-
-        return;
-
-    }
-
-
-    /*
-     * 進捗表示開始
-     */
-
-    updateCombinedProgress(
-        buffer,
-        queue,
-        sessionId
-    );
-
-}
-
-
-/* ============================================================
-   進捗表示
-============================================================ */
-
-function updateCombinedProgress(
-    buffer,
-    queue,
-    sessionId
-) {
-
-    stopProgressAnimation();
-
-
-    function update() {
-
         if (
-            !isPlayingQueue ||
-            sessionId !== playbackSessionId ||
-            !audioContext ||
-            !currentSource
+            session !== playbackSessionId
         ) {
 
             return;
@@ -2291,130 +2036,159 @@ function updateCombinedProgress(
         }
 
 
-        const elapsed =
-            audioContext.currentTime -
-            playbackStartTime;
+        showMessage(
+            `音声の再生に失敗しました: ${error.message}`
+        );
 
 
-        const progress =
-            Math.min(
-                Math.max(
-                    elapsed /
-                    buffer.duration,
-                    0
-                ),
-                1
-            );
+        finishQueue();
+
+    }
+
+}
 
 
-        queueProgressBar.style.width =
-            `${progress * 100}%`;
+
+// ============================================================
+// 再生中ステータス
+// ============================================================
+
+function setPlayingStatus() {
+
+    statusBadge.className =
+        'px-3 py-1 rounded-full text-xs font-medium ' +
+        'bg-emerald-500/10 text-emerald-400 ' +
+        'border border-emerald-500/20 ' +
+        'flex items-center gap-1.5';
 
 
-        /*
-         * 現在どの音声を再生しているか
-         */
+    statusBadge.innerHTML =
+        '<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>再生中';
 
-        let currentIndex = 0;
+}
 
 
-        for (
-            let i = 0;
-            i < currentSegmentInfo.length;
-            i++
+
+// ============================================================
+// 進捗表示
+// ============================================================
+
+function updatePlaybackProgress() {
+
+    if (
+        !isPlayingQueue ||
+        !audioContext ||
+        !combinedAudioBuffer
+    ) {
+
+        return;
+
+    }
+
+
+    if (
+        !currentSourceNode
+    ) {
+
+        return;
+
+    }
+
+
+    const elapsed =
+        audioContext.currentTime -
+        playbackStartedAt;
+
+
+    const duration =
+        combinedAudioBuffer.duration;
+
+
+    const progress =
+        Math.min(
+            1,
+            Math.max(
+                0,
+                elapsed / duration
+            )
+        );
+
+
+    queueProgressBar.style.width =
+        `${progress * 100}%`;
+
+
+    /*
+     * 現在どの音声を再生しているかを判定。
+     */
+
+    let currentSegmentIndex = 0;
+
+
+    for (
+        let i = 0;
+        i < combinedSegments.length;
+        i++
+    ) {
+
+        const segment =
+            combinedSegments[i];
+
+
+        if (
+            elapsed >= segment.startTime &&
+            elapsed < segment.endTime
         ) {
 
-            const segment =
-                currentSegmentInfo[i];
+            currentSegmentIndex =
+                i;
 
-
-            if (
-                elapsed >= segment.startTime &&
-                elapsed < segment.endTime
-            ) {
-
-                currentIndex =
-                    i;
-
-                break;
-
-            }
-
-
-            /*
-             * 最後の瞬間
-             */
-
-            if (
-                elapsed >= segment.endTime
-            ) {
-
-                currentIndex =
-                    i;
-
-            }
+            break;
 
         }
 
-
-        currentQueueIndex =
-            currentIndex;
+    }
 
 
-        const currentItem =
-            queue[currentIndex];
+    const segment =
+        combinedSegments[
+            currentSegmentIndex
+        ];
 
 
-        if (currentItem) {
+    if (segment) {
 
-            currentPlayingLabel.textContent =
-                `再生中 (${currentIndex + 1}/${queue.length}): ${currentItem.id}`;
+        const queue =
+            buildPlayQueue();
 
-        }
+
+        currentPlayingLabel.textContent =
+            `再生中 (${currentSegmentIndex + 1}/${queue.length}): ${segment.id}`;
 
 
         queueProgressCount.textContent =
-            `${currentIndex + 1} / ${queue.length}`;
-
-
-        progressAnimationId =
-            requestAnimationFrame(
-                update
-            );
+            `${currentSegmentIndex + 1} / ${queue.length}`;
 
     }
 
-
-    progressAnimationId =
-        requestAnimationFrame(
-            update
-        );
-
-}
-
-
-function stopProgressAnimation() {
 
     if (
-        progressAnimationId !== null
+        isPlayingQueue
     ) {
 
-        cancelAnimationFrame(
-            progressAnimationId
+        requestAnimationFrame(
+            updatePlaybackProgress
         );
-
-
-        progressAnimationId =
-            null;
 
     }
 
 }
 
 
-/* ============================================================
-   1周終了
-============================================================ */
+
+// ============================================================
+// 再生完了
+// ============================================================
 
 function finishQueue() {
 
@@ -2423,31 +2197,36 @@ function finishQueue() {
 
     clearLoopTimers();
 
-    stopProgressAnimation();
 
-
-    if (currentSource) {
-
-        try {
-
-            currentSource.stop();
-
-        } catch (e) {}
-
+    if (
+        currentSourceNode
+    ) {
 
         try {
 
-            currentSource.disconnect();
+            currentSourceNode.onended =
+                null;
 
-        } catch (e) {}
+            currentSourceNode.stop();
+
+        } catch (e) {
+
+        }
 
 
-        currentSource = null;
+        try {
+
+            currentSourceNode.disconnect();
+
+        } catch (e) {
+
+        }
+
+
+        currentSourceNode =
+            null;
 
     }
-
-
-    currentQueueIndex = -1;
 
 
     playQueueIcon.className =
@@ -2460,7 +2239,9 @@ function finishQueue() {
     );
 
 
-    if (isSelectionComplete()) {
+    if (
+        isSelectionComplete()
+    ) {
 
         playQueueBtn.removeAttribute(
             'disabled'
@@ -2493,19 +2274,21 @@ function finishQueue() {
 
 
     statusBadge.innerHTML =
-        '<span class="w-2 h-2 rounded-full ' +
-        'bg-indigo-400"></span>完了';
+        '<span class="w-2 h-2 rounded-full bg-indigo-400"></span>完了';
 
 }
 
 
-/* ============================================================
-   ループ待機
-============================================================ */
+
+// ============================================================
+// ループ待機
+// ============================================================
 
 function startLoopWait() {
 
-    if (!isPlayingQueue) {
+    if (
+        !isPlayingQueue
+    ) {
 
         return;
 
@@ -2524,8 +2307,7 @@ function startLoopWait() {
 
 
     statusBadge.innerHTML =
-        '<span class="w-2 h-2 rounded-full ' +
-        'bg-amber-400 animate-ping"></span>ループ待機中';
+        '<span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>ループ待機中';
 
 
     if (
@@ -2549,7 +2331,9 @@ function startLoopWait() {
         setInterval(
             () => {
 
-                if (!isPlayingQueue) {
+                if (
+                    !isPlayingQueue
+                ) {
 
                     clearLoopTimers();
 
@@ -2589,13 +2373,16 @@ function startLoopWait() {
 }
 
 
-/* ============================================================
-   ループ再開
-============================================================ */
 
-function restartQueue() {
+// ============================================================
+// ループ再開
+// ============================================================
 
-    if (!isPlayingQueue) {
+async function restartQueue() {
+
+    if (
+        !isPlayingQueue
+    ) {
 
         return;
 
@@ -2605,56 +2392,80 @@ function restartQueue() {
     clearLoopTimers();
 
 
-    /*
-     * 同じCombined AudioBufferを再利用
-     *
-     * MP3を再ロード・再デコードしない
-     */
+    try {
 
-    if (!currentCombinedBuffer) {
+        await initAudioContext();
 
-        /*
-         * 万一バッファが無ければ
-         * 最初から準備
-         */
+    } catch (error) {
 
-        playQueueSequence();
+        showMessage(
+            `AudioContextの再開に失敗しました: ${error.message}`
+        );
+
+        stopQueue();
 
         return;
 
     }
 
 
-    currentQueueIndex = 0;
-
-
     queueProgressBar.style.width =
         '0%';
 
 
-    const queue =
-        buildPlayQueue();
+    setPlayingStatus();
 
 
-    playbackSessionId++;
-
-
-    const sessionId =
+    const session =
         playbackSessionId;
 
 
-    playCombinedBuffer(
-        currentCombinedBuffer,
-        sessionId,
-        queue
-    );
+    try {
+
+        await startCombinedPlayback();
+
+
+        if (
+            !isPlayingQueue ||
+            session !== playbackSessionId
+        ) {
+
+            return;
+
+        }
+
+
+        if (
+            isLoopEnabled
+        ) {
+
+            startLoopWait();
+
+        } else {
+
+            finishQueue();
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            'ループ再生エラー:',
+            error
+        );
+
+
+        finishQueue();
+
+    }
 
 }
 
 
-/* ============================================================
-   カウントダウン
-============================================================ */
+
+// ============================================================
+// カウントダウン
+// ============================================================
 
 function updateCountdownLabel() {
 
@@ -2664,9 +2475,10 @@ function updateCountdownLabel() {
 }
 
 
-/* ============================================================
-   タイマー解除
-============================================================ */
+
+// ============================================================
+// タイマー解除
+// ============================================================
 
 function clearLoopTimers() {
 
@@ -2678,7 +2490,6 @@ function clearLoopTimers() {
             countdownTimerId
         );
 
-
         countdownTimerId =
             null;
 
@@ -2687,14 +2498,15 @@ function clearLoopTimers() {
 }
 
 
-/* ============================================================
-   停止
-============================================================ */
+
+// ============================================================
+// 停止
+// ============================================================
 
 function stopQueue() {
 
     /*
-     * 古い非同期処理を無効化
+     * 古い再生セッションを無効化
      */
 
     playbackSessionId++;
@@ -2706,35 +2518,42 @@ function stopQueue() {
     clearLoopTimers();
 
 
-    stopProgressAnimation();
-
-
     /*
-     * AudioBufferSourceNodeを停止
+     * AudioBufferSourceNode停止
      */
 
-    if (currentSource) {
+    if (
+        currentSourceNode
+    ) {
 
         try {
 
-            currentSource.stop();
+            currentSourceNode.onended =
+                null;
 
-        } catch (e) {}
+            currentSourceNode.stop();
+
+        } catch (e) {
+
+        }
 
 
         try {
 
-            currentSource.disconnect();
+            currentSourceNode.disconnect();
 
-        } catch (e) {}
+        } catch (e) {
+
+        }
 
 
-        currentSource = null;
+        currentSourceNode =
+            null;
 
     }
 
 
-    currentQueueIndex = -1;
+    playbackOffset = 0;
 
 
     playQueueIcon.className =
@@ -2747,7 +2566,9 @@ function stopQueue() {
     );
 
 
-    if (isSelectionComplete()) {
+    if (
+        isSelectionComplete()
+    ) {
 
         playQueueBtn.removeAttribute(
             'disabled'
@@ -2764,14 +2585,6 @@ function stopQueue() {
         '0%';
 
 
-    const queue =
-        buildPlayQueue();
-
-
-    queueProgressCount.textContent =
-        `0 / ${queue.length}`;
-
-
     statusBadge.className =
         'px-3 py-1 rounded-full text-xs font-medium ' +
         'bg-indigo-500/10 text-indigo-400 ' +
@@ -2780,30 +2593,122 @@ function stopQueue() {
 
 
     statusBadge.innerHTML =
-        '<span class="w-2 h-2 rounded-full ' +
-        'bg-indigo-400"></span>準備完了';
+        '<span class="w-2 h-2 rounded-full bg-indigo-400"></span>準備完了';
 
 }
 
 
-/* ============================================================
-   再生ボタン
-============================================================ */
+
+// ============================================================
+// 再生ボタン
+// ============================================================
 
 playQueueBtn.addEventListener(
     'click',
-    () => {
+    async () => {
 
-        if (!isPlayingQueue) {
+        if (
+            isPlayingQueue
+        ) {
+
+            return;
+
+        }
+
+
+        if (
+            !isSelectionComplete()
+        ) {
+
+            showMessage(
+                '原因・区間2つ・状況をすべて選択してください。'
+            );
+
+            return;
+
+        }
+
+
+        /*
+         * iPad Safariでは、このclickイベントから
+         * AudioContextをresumeすることが重要。
+         *
+         * その後に音声をロードする。
+         */
+
+        try {
+
+            await initAudioContext();
+
 
             /*
-             * ここからplayQueueSequenceを呼ぶことが重要
-             *
-             * iPad Safariのユーザー操作による
-             * AudioContext開始に利用する
+             * 音声をまだ連結していない場合は作成。
              */
 
-            playQueueSequence();
+            if (
+                !combinedAudioBuffer
+            ) {
+
+                await prepareCombinedAudio();
+
+            }
+
+
+            /*
+             * ユーザーが準備中に停止した場合。
+             */
+
+            if (
+                isPlayingQueue
+            ) {
+
+                return;
+
+            }
+
+
+            /*
+             * 再生開始
+             */
+
+            await playQueueSequence();
+
+        } catch (error) {
+
+            console.error(
+                '音声準備エラー:',
+                error
+            );
+
+
+            showMessage(
+                `音声の準備に失敗しました: ${error.message}`
+            );
+
+
+            isPlayingQueue =
+                false;
+
+
+            playQueueIcon.className =
+                'fa-solid fa-play text-xl ml-0.5';
+
+
+            stopQueueBtn.setAttribute(
+                'disabled',
+                'true'
+            );
+
+
+            if (
+                isSelectionComplete()
+            ) {
+
+                playQueueBtn.removeAttribute(
+                    'disabled'
+                );
+
+            }
 
         }
 
@@ -2811,15 +2716,21 @@ playQueueBtn.addEventListener(
 );
 
 
+
+// ============================================================
+// 停止ボタン
+// ============================================================
+
 stopQueueBtn.addEventListener(
     'click',
     stopQueue
 );
 
 
-/* ============================================================
-   音量
-============================================================ */
+
+// ============================================================
+// 音量
+// ============================================================
 
 masterVolumeInput.addEventListener(
     'input',
@@ -2835,7 +2746,9 @@ masterVolumeInput.addEventListener(
             `${Math.round(masterVolume * 100)}%`;
 
 
-        if (masterGainNode) {
+        if (
+            masterGainNode
+        ) {
 
             masterGainNode.gain.value =
                 masterVolume;
@@ -2846,48 +2759,37 @@ masterVolumeInput.addEventListener(
 );
 
 
-/* ============================================================
-   ページ復帰
-============================================================ */
 
-document.addEventListener(
-    'visibilitychange',
-    async () => {
+// ============================================================
+// ループON/OFF
+// ============================================================
+
+loopEnableToggle.addEventListener(
+    'change',
+    (e) => {
+
+        isLoopEnabled =
+            e.target.checked;
+
 
         if (
-            document.visibilityState === 'visible' &&
-            isPlayingQueue &&
-            audioContext
+            isLoopEnabled
         ) {
 
-            console.log(
-                'ページが復帰しました'
+            loopSettingsArea.classList.remove(
+                'opacity-50',
+                'pointer-events-none'
+            );
+
+        } else {
+
+            loopSettingsArea.classList.add(
+                'opacity-50',
+                'pointer-events-none'
             );
 
 
-            /*
-             * iPad SafariでAudioContextが
-             * suspendedになった場合に復帰
-             */
-
-            if (
-                audioContext.state === 'suspended'
-            ) {
-
-                try {
-
-                    await audioContext.resume();
-
-                } catch (error) {
-
-                    console.warn(
-                        'AudioContext再開失敗:',
-                        error
-                    );
-
-                }
-
-            }
+            clearLoopTimers();
 
         }
 
@@ -2895,22 +2797,194 @@ document.addEventListener(
 );
 
 
-/* ============================================================
-   初期化
-============================================================ */
 
-window.onload = () => {
+// ============================================================
+// ループ秒数
+// ============================================================
 
-    renderCategoryButtons();
+loopIntervalRange.addEventListener(
+    'input',
+    (e) => {
 
-    updateSequenceUI();
+        loopIntervalSeconds =
+            parseInt(
+                e.target.value,
+                10
+            ) || 0;
 
 
-    console.log(
-        '音声連続再生システム 初期化完了'
-    );
+        loopIntervalInput.value =
+            loopIntervalSeconds;
 
-};
+    }
+);
+
+
+
+loopIntervalInput.addEventListener(
+    'change',
+    (e) => {
+
+        let value =
+            parseInt(
+                e.target.value,
+                10
+            ) || 0;
+
+
+        if (
+            value < 0
+        ) {
+
+            value = 0;
+
+        }
+
+
+        if (
+            value > 300
+        ) {
+
+            value = 300;
+
+        }
+
+
+        loopIntervalSeconds =
+            value;
+
+
+        loopIntervalInput.value =
+            value;
+
+
+        loopIntervalRange.value =
+            value;
+
+    }
+);
+
+
+
+// ============================================================
+// ページ復帰
+// ============================================================
+
+document.addEventListener(
+    'visibilitychange',
+    async () => {
+
+        if (
+            document.visibilityState !== 'visible'
+        ) {
+
+            return;
+
+        }
+
+
+        if (
+            !isPlayingQueue
+        ) {
+
+            return;
+
+        }
+
+
+        /*
+         * iPadでSafariへ戻ってきたとき、
+         * AudioContextがsuspendedになる場合に備える。
+         */
+
+        try {
+
+            if (
+                audioContext &&
+                audioContext.state !== 'running'
+            ) {
+
+                await audioContext.resume();
+
+                console.log(
+                    'ページ復帰後AudioContext:',
+                    audioContext.state
+                );
+
+            }
+
+        } catch (error) {
+
+            console.warn(
+                'ページ復帰後のAudioContext再開失敗:',
+                error
+            );
+
+        }
+
+    }
+);
+
+
+
+// ============================================================
+// 初期化
+// ============================================================
+
+window.addEventListener(
+    'load',
+    () => {
+
+        renderCategoryButtons();
+
+        updateSequenceUI();
+
+        console.log(
+            '音声連続再生システム 初期化完了'
+        );
+
+    }
+);
+
+
+
+// ============================================================
+// 進捗更新ループ
+// ============================================================
+
+function startProgressLoop() {
+
+    if (
+        !isPlayingQueue
+    ) {
+
+        return;
+
+    }
+
+
+    updatePlaybackProgress();
+
+}
+
+
+setInterval(
+    () => {
+
+        if (
+            isPlayingQueue &&
+            currentSourceNode &&
+            combinedAudioBuffer
+        ) {
+
+            updatePlaybackProgress();
+
+        }
+
+    },
+    100
+);
+
 
 </script>
 
