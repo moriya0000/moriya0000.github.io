@@ -18,7 +18,7 @@
         content="black-translucent"
     >
 
-    <title>音声連続再生システム</title>
+    <title>音声連続再生システム　ver1.5</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -1093,85 +1093,37 @@ let audioEngineInitializing = false;
  * 何度でもresumeできるようにする。
  */
 async function ensureAudioContext() {
-
     if (!audioContext) {
-
-        const AudioContextClass =
-            window.AudioContext ||
-            window.webkitAudioContext;
-
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
         if (!AudioContextClass) {
-            throw new Error(
-                "このブラウザはWeb Audio APIに対応していません。"
-            );
+            throw new Error("このブラウザはWeb Audio APIに対応していません。");
         }
-
         audioContext = new AudioContextClass();
-
-        masterGain =
-            audioContext.createGain();
-
-        masterGain.gain.value =
-            masterVolume;
-
-        masterGain.connect(
-            audioContext.destination
-        );
+        masterGain = audioContext.createGain();
+        masterGain.gain.value = masterVolume;
+        masterGain.connect(audioContext.destination);
     }
 
-
-    if (audioContext.state !== "running") {
-
-        try {
-            await audioContext.resume();
-        } catch (error) {
-
-            console.warn(
-                "AudioContext resume failed:",
-                error
-            );
-        }
+    // suspended の場合は確実に resume を待つ
+    if (audioContext.state === "suspended") {
+        await audioContext.resume();
     }
 
-
-    /*
-     * iOS Safari対策。
-     *
-     * 無音の極短いAudioBufferを
-     * ユーザー操作中に再生する。
-     */
+    // iOS Safari用のアンロック処理（確実に再生される小さなバッファを出力）
     if (audioContext.state === "running") {
-
         try {
-
-            const buffer =
-                audioContext.createBuffer(
-                    1,
-                    1,
-                    audioContext.sampleRate
-                );
-
-            const source =
-                audioContext.createBufferSource();
-
+            const buffer = audioContext.createBuffer(1, 1, 22050);
+            const source = audioContext.createBufferSource();
             source.buffer = buffer;
-
-            source.connect(masterGain);
-
+            source.connect(audioContext.destination);
             source.start(0);
-
         } catch (error) {
-
-            console.warn(
-                "Audio unlock buffer error:",
-                error
-            );
+            console.warn("Audio unlock buffer error:", error);
         }
     }
 
     return audioContext;
 }
-
 
 /* ============================================================
    音声一覧取得
@@ -2477,28 +2429,25 @@ function clearPlaybackTimers() {
 ============================================================ */
 
 async function playQueueSequence() {
+    if (!isSelectionComplete() || isPlayingQueue) return;
 
-    if (
-        !isSelectionComplete()
-    ) {
-
+    // ユーザー操作の直後に直接 AudioContext を有効化
+    try {
+        await ensureAudioContext();
+        if (audioContext.state !== "running") {
+            await audioContext.resume();
+        }
+    } catch (error) {
+        showMessage("iPadの音声機能を開始できませんでした。");
         return;
     }
-
-
-    if (
-        isPlayingQueue
-    ) {
-
-        return;
-    }
-
 
     if (!audioEngineReady) {
+        showMessage("まだ音声の準備が完了していません。");
+        return;
+    }
 
-        showMessage(
-            "まだ音声の準備が完了していません。"
-        );
+    // 以降の再生処理...
 
         /*
          * ユーザー操作時なので、
